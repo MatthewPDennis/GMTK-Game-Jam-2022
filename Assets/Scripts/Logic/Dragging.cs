@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Dragging : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform OriginalParent = null;
 
@@ -14,6 +14,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log("Begin drag " + gameObject.name);
+
         //Create placeholder object to maintain space in list where dragged object used to be
         PlaceHolder = new GameObject();
         PlaceHolder.transform.SetParent(this.transform.parent);
@@ -32,14 +34,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         //Ensure elements under dragged object can still register to mouse pointer
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
-
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         //Update dragged object position to mouse pointer position
         this.transform.position = eventData.position;
-
         
         //Allow dragged object to move around inside original list, pushing objects to the right or left as appropriate OR over destination list
         if (PlaceHolder.transform.parent != PlaceHolderParent)
@@ -57,11 +57,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         PlaceHolder.transform.SetSiblingIndex(newSibIndex);
         
-
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("End drag " + gameObject.name);
+
         //Reset dragged object's parent to saved parent
         this.transform.SetParent(OriginalParent);
         this.transform.SetSiblingIndex(PlaceHolder.transform.GetSiblingIndex()); //Reset position in line
@@ -73,8 +74,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         Destroy(PlaceHolder);
         PlaceHolder = null;
         OriginalParent = null;
-
-
 
     }
 

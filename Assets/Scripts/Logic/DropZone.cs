@@ -2,36 +2,37 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
+
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        //Debug.Log("Dropped on " + gameObject.name);
+        Debug.Log("Dropped on " + gameObject.name);
 
         //Reset dragged object's original parent to whatever it was dropped on
-        var draggedObj = eventData.pointerDrag.GetComponent<DragAndDrop>();
+        var draggedObj = eventData.pointerDrag.GetComponent<Dragging>();
         if (draggedObj != null)
             draggedObj.OriginalParent = this.transform;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log("Pointer entered");
+        Debug.Log("Pointer entered " + gameObject.name);
 
         if (eventData.pointerDrag == null) return;
 
-        var draggedObj = eventData.pointerDrag.GetComponent<DragAndDrop>();
+        var draggedObj = eventData.pointerDrag.GetComponent<Dragging>();
         if (draggedObj != null)
             draggedObj.PlaceHolderParent = this.transform;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //Debug.Log("Pointer exited");
+        Debug.Log("Pointer exited " + gameObject.name);
 
         if (eventData.pointerDrag == null) return;
 
-        var draggedObj = eventData.pointerDrag.GetComponent<DragAndDrop>();
+        var draggedObj = eventData.pointerDrag.GetComponent<Dragging>();
         if (draggedObj != null && draggedObj.PlaceHolderParent == this.transform)
             draggedObj.OriginalParent = this.transform;
     }

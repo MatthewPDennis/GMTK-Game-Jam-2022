@@ -10,9 +10,14 @@ public class GamePiece : MonoBehaviour
     public GameObject SpritePrefab;
 
     /// <summary>
-    /// Integer from game board dictionary representing position of game piece on the board
+    /// 
     /// </summary>
-    public int BoardPosition;
+    public Tile BoardPosition;
+
+    /// <summary>
+    /// Name of the game piece.
+    /// </summary>
+    public string Name;
 
     /// <summary>
     /// Legal moves for this game piece
@@ -26,6 +31,10 @@ public class GamePiece : MonoBehaviour
         
     }
 
+    void OnMouseUp()
+    {
+
+    }
 
     public bool IsMoveLegal(Vector2 move)
     {
